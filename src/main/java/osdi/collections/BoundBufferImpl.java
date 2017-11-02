@@ -19,7 +19,9 @@ class BoundBufferImpl<T> implements SimpleQueue<T> {
 
     @Override
     public T dequeue() {
-        T item = queue.remove();
+        T item=null;
+        if(!queue.isEmpty()){
+       item = queue.remove();}
         return item;
     }
 }
