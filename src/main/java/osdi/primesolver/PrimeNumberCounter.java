@@ -62,7 +62,7 @@ public class PrimeNumberCounter {
     private void findPrimeValues(SimpleQueue<Long> valuesToCheck, SimpleQueue<Long> valuesThatArePrime) {
         while(true) {
             Long current = valuesToCheck.dequeue();
-            if(Number.IsPrime(current)) {
+            if(current!=null &&Number.IsPrime(current)) {
                 valuesThatArePrime.enqueue(current);
             }
         }
