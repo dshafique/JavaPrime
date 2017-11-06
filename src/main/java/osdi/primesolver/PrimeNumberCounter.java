@@ -23,15 +23,30 @@ public class PrimeNumberCounter {
     /*
      * you may not modify this method
      */
-    private void startThreads(SimpleQueue<Long> valuesToCheck, SimpleQueue<Long> valuesThatArePrime) {
+    private void startThreads(final SimpleQueue<Long> valuesToCheck, final SimpleQueue<Long> valuesThatArePrime) {
         Collection<Thread> threads = new ArrayList<>();
         int threadCount = getThreadCount();
         for(int i = 0; i < threadCount; i++) {
-            Thread t = new Thread(()->findPrimeValues(valuesToCheck, valuesThatArePrime));
+            Thread t =
+            new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					findPrimeValues(valuesToCheck, valuesThatArePrime);
+					
+				}
+			});
             t.setDaemon(true);
             threads.add(t);
         }
-        Thread counter = new Thread(()->countPrimeValues(valuesThatArePrime));
+        Thread counter = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				countPrimeValues(valuesThatArePrime);
+				
+			}
+		});
         threads.add(counter);
 
         for(Thread t : threads) {
