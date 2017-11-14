@@ -17,7 +17,7 @@ public class PrimeNumberCounter {
      * you may not modify this method
      */
     private static int getThreadCount() {
-        return Runtime.getRuntime().availableProcessors() * 4;
+        return Runtime.getRuntime().availableProcessors()*4;
     }
 
     /*
@@ -59,14 +59,22 @@ public class PrimeNumberCounter {
      * you may modify this method
      */
     public long countPrimeNumbers(NumberRange range) {
-        SimpleQueue<Long> valuesToCheck = BoundBuffer.createBoundBufferWithSemaphores(100);
-        SimpleQueue<Long> valuesThatArePrime = BoundBuffer.createBoundBufferWithSemaphores(50);
+        SimpleQueue<Long> valuesToCheck = BoundBuffer.createBoundBufferWithSemaphores(10000);
+        SimpleQueue<Long> valuesThatArePrime = BoundBuffer.createBoundBufferWithSemaphores(10000);
 
         startThreads(valuesToCheck, valuesThatArePrime);
 
         for(Long value : range) {
             valuesToCheck.enqueue(value);
+
         }
+
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
         return currentCount;
     }
@@ -75,12 +83,23 @@ public class PrimeNumberCounter {
      * you may modify this method
      */
     private void findPrimeValues(SimpleQueue<Long> valuesToCheck, SimpleQueue<Long> valuesThatArePrime) {
+
         while(true) {
+
             Long current = valuesToCheck.dequeue();
-            if(current!=null &&Number.IsPrime(current)) {
-                valuesThatArePrime.enqueue(current);
+            if (current!=null){
+                if(current%1000000==0) {
+                    System.out.println(current);
+                }
+                if(Number.IsPrime(current)) {
+                    valuesThatArePrime.enqueue(current);
+                }
             }
+
+
+
         }
+
     }
 
     /*
@@ -88,9 +107,13 @@ public class PrimeNumberCounter {
      */
     private void countPrimeValues(SimpleQueue<Long> valuesThatArePrime) {
         while(true) {
-            valuesThatArePrime.dequeue();
-            currentCount += 1;
-            if(currentCount % 10000 == 0) {
+
+            Long current = valuesThatArePrime.dequeue();
+            if (current!=null){
+                currentCount++;
+            }
+
+            if(currentCount!=0 && currentCount % 1000000 == 0) {
                 System.out.println("have " + currentCount + " prime values");
                 System.out.flush();
             }

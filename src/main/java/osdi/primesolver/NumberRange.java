@@ -20,6 +20,14 @@ public class NumberRange implements Iterable<Long> {
         this.maxValue = maxValue;
     }
 
+    public long getMaxValue() {
+        return maxValue;
+    }
+
+    public long getStartValue() {
+        return startValue;
+    }
+
     @Override
     public Iterator<Long> iterator() {
         return new NumberIterator(startValue, maxValue);

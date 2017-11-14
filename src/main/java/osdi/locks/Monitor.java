@@ -31,12 +31,13 @@ public class Monitor {
             try {
                 this.wait();
             } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
 
         @Override
         public void pulse() {
-            this.pulse();
+            this.notifyAll();
         }
     }
 }

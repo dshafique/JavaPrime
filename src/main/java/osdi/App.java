@@ -12,7 +12,7 @@ public class App
     private static final long startValue = 1000L;
     private static final long thousand = 1000L;
     private static final long billion = thousand * thousand * thousand;
-    private static final long endValue = 5L * billion;
+    private static final long endValue = billion;
 
     /*
      * you may change this method. you must use NumberRange, PrimeNumberCounter, and reportNumberOfPrimes in here
